@@ -1,37 +1,53 @@
-# Telecommunication software GmbH programming challenge
+b# Telecommunication software GmbH programming challenge
 
 >  Programming challenge for a software developer position.
 
 ## Description
 
-Programming Evaluation
+**Programming Evaluation**
+
 This exercise consists of 3 consecutive steps.
 You don’t have to master all steps – solve the exercise as far as you can.
+
 samwin naturally stores names including umlauts. Older devices are sometimes not capable of handling umlauts and send names with umlauts replaced (Ä .. AE, Ö .. OE, Ü .. UE, ß .. SS).
+
 To find these names in the database, the replacement letters have to be converted to their umlaut counterparts.
 Names are stored in capital letters.
-Step 1
+
+**Step 1**
+
 Develop a program which converts the replacement letters into their umlaut counterparts.
 You can define whether ISO-8859-1 or UTF-8 encoding is to be used.
+
 Examples:
-KOESTNER -> KÖSTNER
-RUESSWURM -> RÜßWURM
-Step 2
+
+KOESTNER -> KÖSTNER</br>
+RUESSWURM -> RÜßWURM</br>
+
+**Step 2**
+
 Since names might exist that contain the replacement letters, a list of possible variations has to be generated for any given name.
 Develop a program which generates a list of all possible variations of a given name.
+
 Examples:
-KOESTNER -> (KOESTNER, KÖSTNER)
-RUESSWURM -> (RUESSWURM, RÜßWURM, RUEßWURM, RÜSSWURM)
-Step 3
+
+KOESTNER -> (KOESTNER, KÖSTNER)</br>
+RUESSWURM -> (RUESSWURM, RÜßWURM, RUEßWURM, RÜSSWURM)</br>
+
+**Step 3**
+
 A SQL statement used to search for a name might look like this:
-SELECT * FROM tbl_phonebook WHERE last_name = 'RUESSWURM'
+
+`SELECT * FROM tbl_phonebook WHERE last_name = 'RUESSWURM'`
+
 Extend your program from step 2 to generate a SQL statement to search for all variations of a given name.
 Please send us your source code as well as the output for each step using the following names:
-KOESTNER
-RUESSWURM
-DUERMUELLER
-JAEAESKELAEINEN
-GROSSSCHAEDL
+
+KOESTNER</br>
+RUESSWURM</br>
+DUERMUELLER</br>
+JAEAESKELAEINEN</br>
+GROSSSCHAEDL</br>
 
 ## Live demo
 
