@@ -1,0 +1,63 @@
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Users</h1>
+    <%= link_to 'New user', new_user_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <h2>Existing Database</h2>
+  <table class="table-auto mb-6 border-collapse border border-slate-400 mt-8">
+    <thead>
+      <tr class="text-s">
+        <th class="border border-slate-300 px-3">First name</th>
+        <th class="border border-slate-300 px-3">Last name</th>
+        <th class="border border-slate-300 px-3">Phone</th>
+        <th class="border border-slate-300 px-3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <% @step_one = false %>
+        <%= render "user", user: user %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>Step 1 Convert last names with umlauts</h2>
+  <table class="table-auto mb-6 border-collapse border border-slate-400 mt-8">
+    <thead>
+      <tr class="text-s">
+        <th class="border border-slate-300 px-3">First name</th>
+        <th class="border border-slate-300 px-3">Last name</th>
+        <th class="border border-slate-300 px-3">Phone</th>
+        <th class="border border-slate-300 px-3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <% @step_one = true %>
+        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä') if user.last_name.include?('AE') %>
+        <% user.duplicates[0] = user.last_name.gsub('OE', 'Ö') if user.last_name.include?('OE') %>
+        <% user.duplicates[0] = user.last_name.gsub('UE', 'Ü') if user.last_name.include?('UE') %>
+        <% user.duplicates[0] = user.last_name.gsub('SS', 'ß') if user.last_name.include?('SS') %>
+        <% user.save %>
+        <%= render "user", user: user %>
+      <% end %>
+    </tbody>
+  </table>
+  <h2>Step 2 All possible names spelling</h2>
+  <% @users.each do |user| %>
+      <% all_names(user) %>
+      <span class="font-bold">
+        <%= user.last_name %>
+      </span>
+      <% user.duplicates.each do |name| %>
+        <%= name %>
+      <% end %>
+      <br>
+  <% end %>
+  <h2 class="mb-16">
+</div>
