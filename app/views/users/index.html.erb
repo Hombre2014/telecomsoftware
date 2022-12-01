@@ -39,13 +39,13 @@
     <tbody>
       <% @users.each do |user| %>
         <% @step_one = true %>
-        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä') if user.last_name.include?('AE') %>
-        <% user.duplicates[0] = user.last_name.gsub('OE', 'Ö') if user.last_name.include?('OE') %>
-        <% user.duplicates[0] = user.last_name.gsub('UE', 'Ü') if user.last_name.include?('UE') %>
-        <% user.duplicates[0] = user.last_name.gsub('SS', 'ß') if user.last_name.include?('SS') %>
+        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
+        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
+        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
+        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
         <% user.save %>
         <%= render "user", user: user %>
-      <% end %>
+    <% end %>
     </tbody>
   </table>
   <h2>Step 2 All possible names spelling</h2>

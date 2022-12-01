@@ -5,6 +5,13 @@ module UsersHelper
     end
   end
 
+  umlauts = {
+    "AE" => "Ä",
+    "OE" => "Ö",
+    "UE" => "Ü",
+    "SS" => "ß"
+  }
+
   def all_names(user)
     last_name = user.last_name
     match_for_AE = indices_matched(last_name, 'AE')
