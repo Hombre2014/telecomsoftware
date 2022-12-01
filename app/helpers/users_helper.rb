@@ -5,52 +5,47 @@ module UsersHelper
     end
   end
 
-  umlauts = {
-    "AE" => "Ä",
-    "OE" => "Ö",
-    "UE" => "Ü",
-    "SS" => "ß"
-  }
+  def array_of_matches_for(user, letters)
+    last_name = user.last_name
+    indices_matched(last_name, letters)
+  end
+
+  def recursive_replacement(matches, user, last_name)
+    umlauts = {
+      "AE" => "Ä",
+      "OE" => "Ö",
+      "UE" => "Ü",
+      "SS" => "ß"
+    }
+    if array_of_matches_for(user, matches).empty?
+      return
+    else
+      umlauts.each do |key, value|
+        matches = array_of_matches_for(user, key)
+        matches.each do |index|
+          temp = last_name.dup.insert(index, value)
+          temp.slice!(index + 1..index + 2)
+          user.duplicates << temp if user.duplicates.exclude?(temp)
+          if matches.length > 2
+            recursive_replacement(matches, user, user.duplicates[2])
+          end
+        end
+      end
+    end
+  end
 
   def all_names(user)
     last_name = user.last_name
-    match_for_AE = indices_matched(last_name, 'AE')
-    match_for_OE = indices_matched(last_name, 'OE')
-    match_for_UE = indices_matched(last_name, 'UE')
-    match_for_SS = indices_matched(last_name, 'SS')
-    matches_count = match_for_AE.count + match_for_OE.count + match_for_UE.count + match_for_SS.count
+    user.duplicates << last_name
+    matches_count = array_of_matches_for(user, 'AE').count + array_of_matches_for(user, 'OE').count + array_of_matches_for(user, 'UE').count + array_of_matches_for(user, 'SS').count
     if matches_count > 0
-      user.duplicates[0] = ''
-      # all_names = []
-      user.duplicates << last_name
-      match_for_AE.each do |index|
-        temp = last_name.dup.insert(index, 'Ä')
-        temp.slice!(index + 1..index + 2)
-        user.duplicates << temp
-      end
-      match_for_OE.each do |index|
-        temp = last_name.dup.insert(index, 'Ö')
-        temp.slice!(index + 1..index + 2)
-        user.duplicates << temp
-      end
-      match_for_UE.each do |index|
-        temp = last_name.dup.insert(index, 'Ü')
-        temp.slice!(index + 1..index + 2)
-        user.duplicates << temp
-      end
-      match_for_SS.each do |index|
-        temp = last_name.dup.insert(index, 'ß')
-        temp.slice!(index + 1..index + 2)
-        user.duplicates << temp
-      end
+      recursive_replacement('AE', user, last_name)
+      recursive_replacement('OE', user, last_name)
+      recursive_replacement('UE', user, last_name)
+      recursive_replacement('SS', user, last_name)
       user.duplicates
     else
       [last_name]
     end
   end
-
-  # def indices_of_matches(name, umlaut)
-  #   umlaut_size = umlaut.size
-  #   (0..name.size-umlaut_size).select { |i| name[i, umlaut_size] == umlaut }
-  # end
 end

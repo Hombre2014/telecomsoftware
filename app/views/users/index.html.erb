@@ -25,8 +25,7 @@
       <% end %>
     </tbody>
   </table>
-
-  <h2>Step 1 Convert last names with umlauts</h2>
+  <h2 class="font-bold">Step 1 Convert last names with umlauts</h2>
   <table class="table-auto mb-6 border-collapse border border-slate-400 mt-8">
     <thead>
       <tr class="text-s">
@@ -48,8 +47,9 @@
     <% end %>
     </tbody>
   </table>
-  <h2>Step 2 All possible names spelling</h2>
-  <% @users.each do |user| %>
+  <h2 class="mb-6 font-bold">Step 2 All possible names spelling</h2>
+  <div>
+    <% @users.each do |user| %>
       <% all_names(user) %>
       <span class="font-bold">
         <%= user.last_name %>
@@ -58,6 +58,26 @@
         <%= name %>
       <% end %>
       <br>
-  <% end %>
-  <h2 class="mb-16">
+    <% end %>
+  </div>
+  <h2 class="my-6 font-bold">Step 3 Generate the command</h2>
+  <div class="mb-12">
+    <% @users.each do |user| %>
+      For user: 
+      <span class="font-bold">
+        <%= user.last_name %>
+      </span>
+      <br>
+      Type SQL command: 
+      <code>SELECT * FROM users WHERE last_name IN (<% user.duplicates.each_with_index do |name, index| %>
+                                                        <% if index < user.duplicates.count - 1 %>
+                                                          <%= "'#{name}'," %>
+                                                        <% else %>
+                                                          <%= "'#{name}'" %>
+                                                        <% end %>
+                                                      <% end %>);
+      </code>
+      <br>
+    <% end %>
+  </div>
 </div>
