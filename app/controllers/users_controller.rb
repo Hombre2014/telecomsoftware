@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   include UsersHelper
 
   @step_one = false
+  @step_two = false
 
   def index
     @users = User.all.order(created_at: :asc)

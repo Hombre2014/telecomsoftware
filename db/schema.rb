@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_29_185404) do
     t.string "duplicates", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["duplicates"], name: "index_users_on_duplicates", using: :gin
   end
 
 end

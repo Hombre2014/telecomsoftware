@@ -6,7 +6,11 @@ module UsersHelper
   end
 
   def array_of_matches_for(user, letters)
-    last_name = user.last_name
+    if @step_two == false
+      last_name = user.last_name
+    else
+      last_name = user.duplicates.last
+    end
     indices_matched(last_name, letters)
   end
 
@@ -26,8 +30,9 @@ module UsersHelper
           temp = last_name.dup.insert(index, value)
           temp.slice!(index + 1..index + 2)
           user.duplicates << temp if user.duplicates.exclude?(temp)
-          if matches.length > 2
-            recursive_replacement(matches, user, user.duplicates[2])
+          @step_two = true
+          if matches.length > 0
+            recursive_replacement(matches, user, user.duplicates[index + 2])
           end
         end
       end
