@@ -12,7 +12,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    # replacement(@user)
   end
 
   def new
@@ -26,7 +25,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.first_name = @user.first_name.upcase
-    @user.last_name = @user.last_name.upcase
+    # @user.last_name << @user.last_name[0].upcase
 
     respond_to do |format|
       if @user.save
@@ -66,6 +65,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :phone, :duplicates)
+      params.require(:user).permit(:first_name, :phone, :correct_name, last_name: [])
     end
 end

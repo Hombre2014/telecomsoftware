@@ -6,7 +6,7 @@ module UsersHelper
   end
 
   def array_of_matches_for(user, letters)
-    last_name = user.last_name
+    last_name = user.last_name.last
     indices_matched(last_name, letters)
   end
 
@@ -25,9 +25,9 @@ module UsersHelper
         matches.each do |index|
           temp = last_name.dup.insert(index, value)
           temp.slice!(index + 1..index + 2)
-          user.duplicates << temp if user.duplicates.exclude?(temp)
+          user.last_name << temp if user.last_name.exclude?(temp)
           if matches.length > 2
-            recursive_replacement(matches, user, user.duplicates[2])
+            recursive_replacement(matches, user, user.last_name.last)
           end
         end
       end
@@ -35,15 +35,15 @@ module UsersHelper
   end
 
   def all_names(user)
-    last_name = user.last_name
-    user.duplicates << last_name
+    last_name = user.last_name.last
+    # user.duplicates << last_name
     matches_count = array_of_matches_for(user, 'AE').count + array_of_matches_for(user, 'OE').count + array_of_matches_for(user, 'UE').count + array_of_matches_for(user, 'SS').count
     if matches_count > 0
       recursive_replacement('AE', user, last_name)
       recursive_replacement('OE', user, last_name)
       recursive_replacement('UE', user, last_name)
       recursive_replacement('SS', user, last_name)
-      user.duplicates
+      user.last_name
     else
       [last_name]
     end

@@ -25,6 +25,7 @@
       <% end %>
     </tbody>
   </table>
+
   <h2 class="font-bold">Step 1 Convert last names with umlauts</h2>
   <table class="table-auto mb-6 border-collapse border border-slate-400 mt-8">
     <thead>
@@ -38,39 +39,41 @@
     <tbody>
       <% @users.each do |user| %>
         <% @step_one = true %>
-        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
-        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
-        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
-        <% user.duplicates[0] = user.last_name.gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
+        <% user.correct_name = user.last_name[0].gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
+        <% user.correct_name = user.last_name[0].gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
+        <% user.correct_name = user.last_name[0].gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
+        <% user.correct_name = user.last_name[0].gsub('AE', 'Ä').gsub('OE', 'Ö').gsub('UE', 'Ü').gsub('SS', 'ß') %>
         <% user.save %>
         <%= render "user", user: user %>
     <% end %>
     </tbody>
   </table>
+
   <h2 class="mb-6 font-bold">Step 2 All possible names spelling</h2>
   <div>
     <% @users.each do |user| %>
       <% all_names(user) %>
       <span class="font-bold">
-        <%= user.last_name %>
+        <%= user.last_name[0] %>
       </span>
-      <% user.duplicates.each do |name| %>
+      <% user.last_name.each do |name| %>
         <%= name %>
       <% end %>
       <br>
     <% end %>
   </div>
+
   <h2 class="my-6 font-bold">Step 3 Generate the command</h2>
   <div class="mb-12">
     <% @users.each do |user| %>
       For user: 
       <span class="font-bold">
-        <%= user.last_name %>
+        <%= user.last_name[0] %>
       </span>
       <br>
       Type SQL command: 
-      <code>SELECT * FROM users WHERE last_name IN (<% user.duplicates.each_with_index do |name, index| %>
-                                                        <% if index < user.duplicates.count - 1 %>
+      <code>SELECT * FROM users WHERE last_name IN (<% user.last_name.each_with_index do |name, index| %>
+                                                        <% if index < user.last_name.count - 1 %>
                                                           <%= "'#{name}'," %>
                                                         <% else %>
                                                           <%= "'#{name}'" %>

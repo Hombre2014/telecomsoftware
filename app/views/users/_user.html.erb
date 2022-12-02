@@ -1,6 +1,6 @@
 <tr id="user_row_<%= user.id %>">
-  <td class="border border-slate-300 px-3"><%= user.first_name %></td>
-  <td class="border border-slate-300 px-3"><%= @step_one == false ? user.last_name : user.duplicates[0] %></td>
+  <td class="border border-slate-300 px-3"><%= user.first_name.upcase %></td>
+  <td class="border border-slate-300 px-3"><%= @step_one == false ? user.last_name[0].upcase : user.correct_name.upcase %></td>
   <td class="border border-slate-300 px-3"><%= user.phone %></td>
   <td class="border border-slate-300 px-3">
     <%= link_to 'View', user, class: "rounded-lg py-1 px-5 bg-cyan-500 inline-block font-medium text-white my-3" %>
